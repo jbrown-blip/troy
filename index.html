@@ -23,86 +23,41 @@
     .banner{
       display:block; width:100%; height:220px;
       object-fit:cover; object-position:center; background:#0b0f14;
-      pointer-events:none; /* <-- не перехватывает клики */
+      pointer-events:none; /* картинка не перехватывает клики */
+      user-select:none;
     }
-    .content{
-      padding:22px; text-align:center; position:relative; z-index:2; pointer-events:auto;
-    }
-    h1{margin:10px 0 12px;font-size:clamp(22px,3vw,34px)}
-    p{margin:0 0 18px;color:#c9d2de;font-size:15px;line-height:1.4}
+    .content{padding:22px; text-align:center; position:relative; z-index:2}
+    h1{margin:10px 0 12px; font-size:clamp(22px,3vw,34px)}
+    p{margin:0 0 18px; color:#c9d2de; font-size:15px; line-height:1.4}
     .btn{
       display:inline-block; text-decoration:none; cursor:pointer;
-      border:0; border-radius:14px; padding:14px 22px;
+      border-radius:14px; padding:14px 22px;
       font-weight:900; font-size:18px; margin:8px;
-      transition:transform .15s ease, box-shadow .2s ease;
-      position:relative; z-index:3;
+      transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
     }
     .btn-yes{
       background:linear-gradient(180deg,var(--gold),var(--gold2));
       color:#14130b; box-shadow:0 10px 22px rgba(255,215,106,.45);
     }
-    .btn-yes:hover{transform:scale(1.05);box-shadow:0 16px 32px rgba(255,215,106,.6)}
-    .btn-no{background:#1b212c;color:#a6b4c6;border:1px solid #2c3749}
-    .btn-no:hover{background:#232a37;color:#fff}
+    .btn-yes:hover{transform:scale(1.05); box-shadow:0 16px 32px rgba(255,215,106,.6)}
+    .btn-no{
+      background:#1b212c; color:#a6b4c6; border:1px solid #2c3749;
+    }
+    .btn-no:hover{background:#232a37; color:#fff}
   </style>
 </head>
 <body>
   <section class="card">
-    <img class="banner" src="./imagen-ilustrativa-Cuales-son-los-mejores-juegos-Jugabet.webp?v=6" alt="Jugabet banner">
+    <img class="banner" src="./imagen-ilustrativa-Cuales-son-los-mejores-juegos-Jugabet.webp?v=7" alt="Jugabet banner">
     <div class="content">
       <h1>¿Tienes 18 años o más?</h1>
       <p>Para continuar, confirma tu edad y acepta los términos. Te redirigiremos a la página de destino.</p>
 
-      <!-- Кнопки как ссылки с href по умолчанию (без UTM) -->
-      <a id="yesBtn" class="btn btn-yes" href="https://click.trk4rabuy.com/G33qSNLg">✅ Sí</a>
-      <a id="noBtn" class="btn btn-no"  href="https://click.trk4rabuy.com/G33qSNLg">❌ No</a>
+      <!-- ОБЕ КНОПКИ = ЧИСТЫЕ ССЫЛКИ НА ТВОЙ URL -->
+      <a class="btn btn-yes" href="https://click.trk4rabuy.com/G33qSNLg" rel="noopener" target="_self">✅ Sí</a>
+      <a class="btn btn-no"  href="https://click.trk4rabuy.com/G33qSNLg" rel="noopener" target="_self">❌ No</a>
     </div>
   </section>
-
-  <script>
-    // Поддержка ?utm_ / gclid / fbclid / ref и ?to=
-    const DEFAULT_TARGET_URL="https://click.trk4rabuy.com/G33qSNLg";
-    const qs=new URLSearchParams(location.search);
-
-    function mergeQueryStrings(baseUrl,extraSearch){
-      try{
-        const url=new URL(baseUrl);
-        const merged=new URLSearchParams(url.search);
-        if(extraSearch){
-          const extras=new URLSearchParams(extraSearch);
-          for(const [k,v] of extras){
-            if(!k||!v) continue;
-            if(k.toLowerCase()==="to") continue;
-            merged.append(k,v);
-          }
-        }
-        url.search=merged.toString();
-        return url.toString();
-      }catch(_){
-        // если передали без протокола
-        return mergeQueryStrings("https://"+baseUrl.replace(/^\\/+/, ""), extraSearch);
-      }
-    }
-
-    function getTargetUrl(){
-      const base=qs.get("to")||DEFAULT_TARGET_URL;
-      const pass=new URLSearchParams();
-      for(const [k,v] of qs){
-        const kl=k.toLowerCase();
-        if(kl==="to") continue;
-        if(kl.startsWith("utm_")||kl==="gclid"||kl==="fbclid"||kl==="ref"||kl==="source"){
-          pass.append(k,v);
-        }
-      }
-      return mergeQueryStrings(base, pass.toString());
-    }
-
-    // На всякий случай ставим динамический href с UTM, если доступен
-    const yes = document.getElementById("yesBtn");
-    const no  = document.getElementById("noBtn");
-    const finalUrl = getTargetUrl();
-    yes.setAttribute("href", finalUrl);
-    no.setAttribute("href",  finalUrl);
-  </script>
 </body>
 </html>
+
