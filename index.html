@@ -7,25 +7,25 @@
   <meta name="robots" content="noindex,nofollow" />
   <style>
     :root{
-      --bg:#0a0f18; --overlay:rgba(6,10,18,.55);
+      --bg:#0a0f18;
       --gold:#ffd76a; --gold2:#e6b800;
     }
     html,body{height:100%;margin:0;display:grid;place-items:center;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#fff;background:var(--bg)}
-    .hero{position:relative;min-height:100svh;width:100%;display:grid;place-items:center;overflow:hidden}
-    .hero::before{
-      content:"";position:absolute;inset:0;
-      background:#0b0f14 center/cover no-repeat;
-      background-image:url("./imagen-ilustrativa-Cuales-son-los-mejores-juegos-Jugabet.webp");
-    }
-    .hero::after{content:"";position:absolute;inset:0;background:var(--overlay)}
     .card{
-      position:relative;z-index:1;text-align:center;
-      background:rgba(11,15,20,.45);backdrop-filter:blur(6px);
-      border-radius:20px;box-shadow:0 16px 44px rgba(0,0,0,.45);
-      padding:30px;width:min(600px,90vw);
+      width:min(720px,94vw);
+      background:rgba(14,18,28,.7);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      box-shadow:0 16px 44px rgba(0,0,0,.45);
+      overflow:hidden;
     }
-    h1{margin:0 0 12px;font-size:clamp(22px,3vw,34px)}
-    p{margin:0 0 20px;color:#c9d2de;font-size:15px;line-height:1.4}
+    .banner{
+      width:100%; height:220px; object-fit:cover; object-position:center;
+      display:block; background:#0b0f14;
+    }
+    .content{padding:22px;text-align:center}
+    h1{margin:10px 0 12px;font-size:clamp(22px,3vw,34px)}
+    p{margin:0 0 18px;color:#c9d2de;font-size:15px;line-height:1.4}
     .btn{
       cursor:pointer;border:0;border-radius:14px;padding:14px 22px;
       font-weight:900;font-size:18px;margin:8px;
@@ -43,8 +43,10 @@
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="card">
+  <section class="card">
+    <!-- ВОТ ЗДЕСЬ КАРТИНКА -->
+    <img class="banner" src="./imagen-ilustrativa-Cuales-son-los-mejores-juegos-Jugabet.webp" alt="Jugabet banner">
+    <div class="content">
       <h1>¿Tienes 18 años o más?</h1>
       <p>Para continuar, confirma tu edad y acepta los términos. Te redirigiremos a la página de destino.</p>
       <button id="yesBtn" class="btn btn-yes">✅ Sí</button>
@@ -69,7 +71,7 @@
         }
         url.search=merged.toString();return url.toString();
       }catch(e){
-        return mergeQueryStrings("https://"+baseUrl.replace(/^\/+/, ""),extraSearch);
+        return mergeQueryStrings("https://"+baseUrl.replace(/^\\/+/, ""),extraSearch);
       }
     }
     function getTargetUrl(){
