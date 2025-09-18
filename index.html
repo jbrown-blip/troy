@@ -6,22 +6,20 @@
   <title>Verificación de Edad</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
-    :root{
-      --bg:#0a0f18;
-      --gold:#ffd76a; --gold2:#e6b800;
-    }
-    html,body{height:100%;margin:0;display:grid;place-items:center;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#fff;background:var(--bg)}
+    :root{ --bg:#0a0f18; --gold:#ffd76a; --gold2:#e6b800; }
+    html,body{height:100%;margin:0;background:var(--bg);font-family:system-ui,Arial,sans-serif;color:#fff;display:grid;place-items:center}
+    /* НИКАКИХ .hero и ::before — чтобы фон НЕ подключался */
     .card{
       width:min(720px,94vw);
-      background:rgba(14,18,28,.7);
+      background:rgba(14,18,28,.75);
       border:1px solid rgba(255,255,255,.08);
       border-radius:18px;
       box-shadow:0 16px 44px rgba(0,0,0,.45);
       overflow:hidden;
     }
     .banner{
-      width:100%; height:220px; object-fit:cover; object-position:center;
-      display:block; background:#0b0f14;
+      display:block; width:100%; height:220px;
+      object-fit:cover; object-position:center; background:#0b0f14;
     }
     .content{padding:22px;text-align:center}
     h1{margin:10px 0 12px;font-size:clamp(22px,3vw,34px)}
@@ -31,21 +29,17 @@
       font-weight:900;font-size:18px;margin:8px;
       transition:transform .15s ease, box-shadow .2s ease;
     }
-    .btn-yes{
-      background:linear-gradient(180deg,var(--gold),var(--gold2));color:#14130b;
-      box-shadow:0 10px 22px rgba(255,215,106,.45);
-    }
+    .btn-yes{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#14130b;box-shadow:0 10px 22px rgba(255,215,106,.45)}
     .btn-yes:hover{transform:scale(1.05);box-shadow:0 16px 32px rgba(255,215,106,.6)}
-    .btn-no{
-      background:#1b212c;color:#a6b4c6;border:1px solid #2c3749;
-    }
+    .btn-no{background:#1b212c;color:#a6b4c6;border:1px solid #2c3749}
     .btn-no:hover{background:#232a37;color:#fff}
   </style>
 </head>
 <body>
   <section class="card">
-    <!-- ВОТ ЗДЕСЬ КАРТИНКА -->
-    <img class="banner" src="./imagen-ilustrativa-Cuales-son-los-mejores-juegos-Jugabet.webp" alt="Jugabet banner">
+    <!-- ВЕРХНЯЯ КАРТИНКА. Если файл рядом с index.html — оставь путь как есть. -->
+    <img class="banner" src="./imagen-ilustrativa-Cuales-son-los-mejores-juegos-Jugabet.webp?v=3" alt="Jugabet banner"
+         onerror="this.style.opacity=0; console.warn('Imagen no se cargó: revisa el nombre/ruta del archivo');">
     <div class="content">
       <h1>¿Tienes 18 años o más?</h1>
       <p>Para continuar, confirma tu edad y acepta los términos. Te redirigiremos a la página de destino.</p>
@@ -55,6 +49,7 @@
   </section>
 
   <script>
+    // Ссылка "ДА"
     const DEFAULT_TARGET_URL="https://click.trk4rabuy.com/G33qSNLg";
     const qs=new URLSearchParams(location.search);
     function mergeQueryStrings(baseUrl,extraSearch){
@@ -70,23 +65,23 @@
           }
         }
         url.search=merged.toString();return url.toString();
-      }catch(e){
+      }catch(_){
         return mergeQueryStrings("https://"+baseUrl.replace(/^\\/+/, ""),extraSearch);
       }
     }
     function getTargetUrl(){
       const base=qs.get("to")||DEFAULT_TARGET_URL;
-      const passthrough=new URLSearchParams();
+      const pass=new URLSearchParams();
       for(const [k,v] of qs){
         const kl=k.toLowerCase();
         if(kl==="to")continue;
-        if(kl.startsWith("utm_")||kl==="gclid"||kl==="fbclid"||kl==="ref"||kl==="source")
-          passthrough.append(k,v);
+        if(kl.startsWith("utm_")||kl==="gclid"||kl==="fbclid"||kl==="ref"||kl==="source") pass.append(k,v);
       }
-      return mergeQueryStrings(base,passthrough.toString());
+      return mergeQueryStrings(base, pass.toString());
     }
     document.getElementById("yesBtn").addEventListener("click",()=>location.href=getTargetUrl());
     document.getElementById("noBtn").addEventListener("click",()=>location.href="https://google.com");
   </script>
 </body>
 </html>
+
